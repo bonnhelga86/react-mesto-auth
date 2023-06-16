@@ -1,9 +1,7 @@
-.header__button {
-  border: none;
-  padding: 0;
-  background: #000;
+.header__sign-link {
   color: #fff;
   font-size: 18px;
   line-height: 22px;
   font-weight: 400;
+  text-decoration: none;
 }

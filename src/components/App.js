@@ -21,6 +21,7 @@ function App() {
   const [selectedViewCard, setSelectedViewCard] = React.useState({});
   const [selectedDeleteCard, setSelectedDeleteCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
+  const [currentRoute, setCurrentRoute] = React.useState('login');
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [cards, setCards] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -135,15 +136,19 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <Header isLoggedIn={isLoggedIn} />
+      <Header isLoggedIn={isLoggedIn} currentRoute={currentRoute} />
 
       <Routes>
         <Route path="/sign-up" element={
           <Register
-
+            changeCurrentRoute={setCurrentRoute}
           />
         }/>
-        <Route path="/sign-in" element={<Login />}/>
+        <Route path="/sign-in" element={
+          <Login
+            changeCurrentRoute={setCurrentRoute}
+          />
+        }/>
         <Route path="/" element={
           <Main
             cards={cards}
