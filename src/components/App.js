@@ -138,7 +138,11 @@ function App() {
       <Header isLoggedIn={isLoggedIn} />
 
       <Routes>
-        <Route path="/sign-up" element={<Register />}/>
+        <Route path="/sign-up" element={
+          <Register
+
+          />
+        }/>
         <Route path="/sign-in" element={<Login />}/>
         <Route path="/" element={
           <Main
@@ -154,7 +158,7 @@ function App() {
 
       </Routes>
 
-      <Footer />
+      {isLoggedIn && <Footer />}
 
       <EditAvatarPopup
         isOpen={isEditAvatarPopupOpen}

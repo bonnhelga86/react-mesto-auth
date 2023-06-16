@@ -1,11 +1,14 @@
+import { Link } from 'react-router-dom';
+import SignForm from './SignForm';
+
 function Register() {
   return(
-    <div>
-      <h2>Регистрация</h2>
-      {/* <form>
+    <div className="sign">
+      <h2 className="sign__title">Регистрация</h2>
 
-      </form> */}
-      <p>Уже зарегистрированы? Войти</p>
+      <SignForm submitButtonName="Зарегистрироваться" />
+
+      <Link to="/sign-in" className="sign__link">Уже зарегистрированы? Войти</Link>
     </div>
   )
 }
