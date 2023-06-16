@@ -2,6 +2,8 @@ import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Header from './Header.js';
 import Main from './Main.js';
+import Register from './Register.js';
+import Login from './Login.js';
 import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
 import EditProfilePopup from './EditProfilePopup.js';
@@ -19,6 +21,7 @@ function App() {
   const [selectedViewCard, setSelectedViewCard] = React.useState({});
   const [selectedDeleteCard, setSelectedDeleteCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [cards, setCards] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -132,9 +135,11 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <Header />
+      <Header isLoggedIn={isLoggedIn} />
 
       <Routes>
+        <Route path="/sign-up" element={<Register />}/>
+        <Route path="/sign-in" element={<Login />}/>
         <Route path="/" element={
           <Main
             cards={cards}
@@ -146,6 +151,7 @@ function App() {
             onDeleteCard={handleDeleteCardPopupOpen}
           />
         } />
+
       </Routes>
 
       <Footer />
