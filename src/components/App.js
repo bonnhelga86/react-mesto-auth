@@ -10,6 +10,7 @@ import EditProfilePopup from './EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
 import ImagePopup from './ImagePopup.js';
+import ProtectedRoute from './ProtectedRoute.js';
 import api from '../utils/api.js';
 import CurrentUserContext from '../contexts/CurrentUserContext.js';
 
@@ -144,22 +145,25 @@ function App() {
             changeCurrentRoute={setCurrentRoute}
           />
         }/>
+
         <Route path="/sign-in" element={
           <Login
             changeCurrentRoute={setCurrentRoute}
           />
         }/>
-        <Route path="/" element={
-          <Main
-            cards={cards}
-            onEditAvatar={setIsEditAvatarPopupOpen}
-            onEditProfile={setIsEditProfilePopupOpen}
-            onAddPlace={setIsAddPlacePopupOpen}
-            onCardClick={setSelectedViewCard}
-            onCardLike={handleLikeCard}
-            onDeleteCard={handleDeleteCardPopupOpen}
-          />
-        } />
+
+        <Route path="/" element={<ProtectedRoute
+                                  element={Main}
+                                  isLoggedIn={isLoggedIn}
+                                  cards={cards}
+                                  onEditAvatar={setIsEditAvatarPopupOpen}
+                                  onEditProfile={setIsEditProfilePopupOpen}
+                                  onAddPlace={setIsAddPlacePopupOpen}
+                                  onCardClick={setSelectedViewCard}
+                                  onCardLike={handleLikeCard}
+                                  onDeleteCard={handleDeleteCardPopupOpen}
+                                />}
+        />
 
       </Routes>
 
