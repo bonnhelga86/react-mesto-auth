@@ -10,6 +10,7 @@ import EditProfilePopup from './EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
 import ImagePopup from './ImagePopup.js';
+import InfoTooltip from './InfoTooltip.js';
 import ProtectedRoute from './ProtectedRoute.js';
 import api from '../utils/api.js';
 import CurrentUserContext from '../contexts/CurrentUserContext.js';
@@ -19,12 +20,15 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(false);
+  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = React.useState(false);
+  const [infoTooltipType, setInfoTooltipType] = React.useState('fail');
+
   const [selectedViewCard, setSelectedViewCard] = React.useState({});
   const [selectedDeleteCard, setSelectedDeleteCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
+  const [cards, setCards] = React.useState([]);
   const [currentRoute, setCurrentRoute] = React.useState('login');
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [cards, setCards] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
@@ -201,6 +205,14 @@ function App() {
         onSubmitForm={handleDeleteCard}
         onClose={handleCloseClick}
         onEscapeClose={handleEscClose}
+      />
+
+      <InfoTooltip
+        name="tooltip"
+        isOpen={isInfoTooltipPopupOpen}
+        onClose={handleCloseClick}
+        onEscapeClose={handleEscClose}
+        infoTooltipType={infoTooltipType}
       />
 
       <ImagePopup card={selectedViewCard} name='image' onClose={handleCloseClick} onEscapeClose={handleEscClose} />
