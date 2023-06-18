@@ -156,17 +156,19 @@ function App() {
           />
         }/>
 
-        <Route path="/" element={<ProtectedRoute
-                                  element={Main}
-                                  isLoggedIn={isLoggedIn}
-                                  cards={cards}
-                                  onEditAvatar={setIsEditAvatarPopupOpen}
-                                  onEditProfile={setIsEditProfilePopupOpen}
-                                  onAddPlace={setIsAddPlacePopupOpen}
-                                  onCardClick={setSelectedViewCard}
-                                  onCardLike={handleLikeCard}
-                                  onDeleteCard={handleDeleteCardPopupOpen}
-                                />}
+        <Route path="/" element={
+          isLoggedIn ? <ProtectedRoute
+                          element={Main}
+                          isLoggedIn={isLoggedIn}
+                          cards={cards}
+                          onEditAvatar={setIsEditAvatarPopupOpen}
+                          onEditProfile={setIsEditProfilePopupOpen}
+                          onAddPlace={setIsAddPlacePopupOpen}
+                          onCardClick={setSelectedViewCard}
+                          onCardLike={handleLikeCard}
+                          onDeleteCard={handleDeleteCardPopupOpen}
+                       />
+                      : <Navigate to="/sign-in" replace />}
         />
 
       </Routes>
