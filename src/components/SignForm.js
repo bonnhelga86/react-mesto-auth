@@ -1,6 +1,6 @@
 import React from 'react';
 
-function SignForm({ submitButtonName }) {
+function SignForm({ submitButtonName, onSubmit }) {
   const[email, setEmail] = React.useState('');
   const[password, setPassword] = React.useState('');
 
@@ -11,8 +11,7 @@ function SignForm({ submitButtonName }) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(email, password);
-    // onAddPlace(name, link);
+    onSubmit(email, password);
   }
 
   return(

@@ -1,7 +1,7 @@
 import React from 'react';
 import SignForm from './SignForm';
 
-function Login({ changeCurrentRoute }) {
+function Login({ changeCurrentRoute, onAuthorize }) {
   React.useEffect(() => {
     changeCurrentRoute('login');
   }, [])
@@ -10,7 +10,7 @@ function Login({ changeCurrentRoute }) {
     <div className="sign">
       <h2 className="sign__title">Вход</h2>
 
-      <SignForm submitButtonName="Войти" />
+      <SignForm submitButtonName="Войти" onSubmit={onAuthorize} />
 
     </div>
   )

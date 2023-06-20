@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate, useNavigate  } from 'react-router-dom';
 import Header from './Header.js';
 import Main from './Main.js';
 import Register from './Register.js';
@@ -13,6 +13,7 @@ import ImagePopup from './ImagePopup.js';
 import InfoTooltip from './InfoTooltip.js';
 import ProtectedRoute from './ProtectedRoute.js';
 import api from '../utils/api.js';
+import * as auth from '../utils/auth.js';
 import CurrentUserContext from '../contexts/CurrentUserContext.js';
 
 function App() {
@@ -26,10 +27,13 @@ function App() {
   const [selectedViewCard, setSelectedViewCard] = React.useState({});
   const [selectedDeleteCard, setSelectedDeleteCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
+  const [email, setEmail] = React.useState('');
   const [cards, setCards] = React.useState([]);
   const [currentRoute, setCurrentRoute] = React.useState('login');
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -41,6 +45,36 @@ function App() {
           console.error(error);
         })
   }, [])
+
+  function handleRegister(email, password) {
+    auth.register(email, password)
+        .then(data => {
+          console.log('data', data);
+          navigate('/sign-in', {replace: true});
+        })
+        .catch(error => {
+          console.error(error);
+        });
+  }
+
+  function handleAuthorize(email, password) {
+    auth.authorize(email, password)
+        .then(data => {
+          console.log('data', data);
+          if (data.jwt){
+            localStorage.setItem('jwt', data.jwt);
+            setIsLoggedIn(true);
+            setEmail(email);
+            navigate('/', {replace: true});
+            return data;
+          } else {
+            return;
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+  }
 
   function handleUpdateAvatar(avatar) {
     setIsLoading(true);
@@ -141,25 +175,27 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <Header isLoggedIn={isLoggedIn} currentRoute={currentRoute} />
+      <Header isLoggedIn={isLoggedIn} currentRoute={currentRoute} email={email} />
 
       <Routes>
         <Route path="/sign-up" element={
           <Register
             changeCurrentRoute={setCurrentRoute}
+            onRegister={handleRegister}
           />
         }/>
 
         <Route path="/sign-in" element={
           <Login
             changeCurrentRoute={setCurrentRoute}
+            onAuthorize={handleAuthorize}
           />
         }/>
 
         <Route path="/" element={
           isLoggedIn ? <ProtectedRoute
                           element={Main}
-                          isLoggedIn={isLoggedIn}
+                          // isLoggedIn={isLoggedIn}
                           cards={cards}
                           onEditAvatar={setIsEditAvatarPopupOpen}
                           onEditProfile={setIsEditProfilePopupOpen}
