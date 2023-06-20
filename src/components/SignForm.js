@@ -11,6 +11,9 @@ function SignForm({ submitButtonName, onSubmit }) {
 
   function handleSubmit(event) {
     event.preventDefault();
+    if (!email || !password){
+      return;
+    }
     onSubmit(email, password);
   }
 

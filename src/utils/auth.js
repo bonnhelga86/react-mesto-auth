@@ -28,7 +28,7 @@ export const register = (email, password) => {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({email, password})
-  }).then(res => getResponseData(res, 'register'))
+  }).then(res => getResponseData(res))
 }
 
 export const authorize = (email, password) => {
@@ -38,5 +38,15 @@ export const authorize = (email, password) => {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({email, password})
-  }).then(res => getResponseData(res, 'register'))
+  }).then(res => getResponseData(res))
+}
+
+export const tokenCheck = (token) => {
+  return fetch(`${baseUrl}/users/me`, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization" : `Bearer ${token}`
+    },
+  }).then(res => getResponseData(res))
 }

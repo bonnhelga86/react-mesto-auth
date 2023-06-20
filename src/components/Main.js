@@ -2,8 +2,12 @@ import React from 'react';
 import Card from './Card.js';
 import CurrentUserContext from '../contexts/CurrentUserContext.js';
 
-function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onDeleteCard }) {
+function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onDeleteCard, changeHeaderMenuData }) {
   const currentUser = React.useContext(CurrentUserContext);
+
+  React.useEffect(() => {
+    changeHeaderMenuData({link: '/sign-in', name: 'Выйти'});
+  }, [])
 
   return(
     <main className="content">

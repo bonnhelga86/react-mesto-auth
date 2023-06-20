@@ -2,7 +2,7 @@ import React from 'react';
 import logo from '../images/logo.svg';
 import { Link } from 'react-router-dom';
 
-function Header({ isLoggedIn, currentRoute, email }) {
+function Header({ isLoggedIn, headerMenuData, email, signOut }) {
 
   return(
     <header className="header">
@@ -10,8 +10,12 @@ function Header({ isLoggedIn, currentRoute, email }) {
       <div className='header__menu'>
         {isLoggedIn && <p className="header__email">{email}</p>}
 
-        <Link to={currentRoute === 'login' ? '/sign-up' : 'sign-in'} className="header__sign-link">
-          {currentRoute === 'login' ? 'Регистрация' : 'Войти'}
+        <Link
+          to={headerMenuData.link}
+          className="header__sign-link"
+          onClick={isLoggedIn && signOut}
+        >
+          {headerMenuData.name}
         </Link>
       </div>
     </header>

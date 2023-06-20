@@ -29,7 +29,7 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [email, setEmail] = React.useState('');
   const [cards, setCards] = React.useState([]);
-  const [currentRoute, setCurrentRoute] = React.useState('login');
+  const [headerMenuData, setHeaderMenuData] = React.useState({});
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -43,37 +43,32 @@ function App() {
         })
         .catch(error => {
           console.error(error);
-        })
+        });
+
+    tokenCheck();
   }, [])
 
-  function handleRegister(email, password) {
-    auth.register(email, password)
-        .then(data => {
-          console.log('data', data);
-          navigate('/sign-in', {replace: true});
-        })
-        .catch(error => {
-          console.error(error);
-        });
+  function tokenCheck() {
+    const token = localStorage.getItem('token');
+    if(token) {
+      auth.tokenCheck(token).then(data => {
+        if(data) {
+          setIsLoggedIn(true);
+          setEmail(data.data.email);
+          navigate('/', {replace: true});
+        }
+      })
+    }
   }
 
-  function handleAuthorize(email, password) {
-    auth.authorize(email, password)
-        .then(data => {
-          console.log('data', data);
-          if (data.jwt){
-            localStorage.setItem('jwt', data.jwt);
-            setIsLoggedIn(true);
-            setEmail(email);
-            navigate('/', {replace: true});
-            return data;
-          } else {
-            return;
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
+  function handleLogin(email) {
+    setIsLoggedIn(true);
+    setEmail(email);
+  }
+
+  function signOut() {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
   }
 
   function handleUpdateAvatar(avatar) {
@@ -175,27 +170,24 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <Header isLoggedIn={isLoggedIn} currentRoute={currentRoute} email={email} />
+      <Header isLoggedIn={isLoggedIn} headerMenuData={headerMenuData} email={email} signOut={signOut} />
 
       <Routes>
         <Route path="/sign-up" element={
-          <Register
-            changeCurrentRoute={setCurrentRoute}
-            onRegister={handleRegister}
-          />
+          <Register changeHeaderMenuData={setHeaderMenuData} />
         }/>
 
         <Route path="/sign-in" element={
           <Login
-            changeCurrentRoute={setCurrentRoute}
-            onAuthorize={handleAuthorize}
+            changeHeaderMenuData={setHeaderMenuData}
+            onHandleLogin={handleLogin}
           />
         }/>
 
         <Route path="/" element={
           isLoggedIn ? <ProtectedRoute
                           element={Main}
-                          // isLoggedIn={isLoggedIn}
+                          isLoggedIn={isLoggedIn}
                           cards={cards}
                           onEditAvatar={setIsEditAvatarPopupOpen}
                           onEditProfile={setIsEditProfilePopupOpen}
@@ -203,6 +195,7 @@ function App() {
                           onCardClick={setSelectedViewCard}
                           onCardLike={handleLikeCard}
                           onDeleteCard={handleDeleteCardPopupOpen}
+                          changeHeaderMenuData={setHeaderMenuData}
                        />
                       : <Navigate to="/sign-in" replace />}
         />
