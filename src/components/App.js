@@ -153,6 +153,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsDeleteCardPopupOpen(false);
+    setIsInfoTooltipPopupOpen(false);
     setSelectedViewCard({});
   }
 
@@ -174,13 +175,19 @@ function App() {
 
       <Routes>
         <Route path="/sign-up" element={
-          <Register changeHeaderMenuData={setHeaderMenuData} />
+          <Register
+            changeHeaderMenuData={setHeaderMenuData}
+            onInfoTooltipPopupOpen={setIsInfoTooltipPopupOpen}
+            onInfoTooltipTypeChange={setInfoTooltipType}
+          />
         }/>
 
         <Route path="/sign-in" element={
           <Login
             changeHeaderMenuData={setHeaderMenuData}
             onHandleLogin={handleLogin}
+            onInfoTooltipPopupOpen={setIsInfoTooltipPopupOpen}
+            onInfoTooltipTypeChange={setInfoTooltipType}
           />
         }/>
 

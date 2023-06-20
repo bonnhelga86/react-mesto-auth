@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import SignForm from './SignForm';
 import * as auth from '../utils/auth.js';
 
-function Register({ changeHeaderMenuData }) {
+function Register({ changeHeaderMenuData, onInfoTooltipPopupOpen, onInfoTooltipTypeChange }) {
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -13,9 +13,15 @@ function Register({ changeHeaderMenuData }) {
   function handleRegister(email, password) {
     auth.register(email, password)
         .then(data => {
-          navigate('/sign-in', {replace: true});
+          if(data) {
+            onInfoTooltipTypeChange('success');
+            onInfoTooltipPopupOpen(true);
+            navigate('/sign-in', {replace: true});
+          }
         })
         .catch(error => {
+          onInfoTooltipTypeChange('fail');
+          onInfoTooltipPopupOpen(true);
           console.error(error);
         });
   }

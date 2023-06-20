@@ -3,7 +3,7 @@ import { useNavigate  } from 'react-router-dom';
 import SignForm from './SignForm';
 import * as auth from '../utils/auth.js';
 
-function Login({ changeHeaderMenuData, onHandleLogin }) {
+function Login({ changeHeaderMenuData, onHandleLogin, onInfoTooltipPopupOpen, onInfoTooltipTypeChange }) {
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -23,6 +23,8 @@ function Login({ changeHeaderMenuData, onHandleLogin }) {
           }
         })
         .catch(error => {
+          onInfoTooltipTypeChange('fail');
+          onInfoTooltipPopupOpen(true);
           console.error(error);
         });
   }
