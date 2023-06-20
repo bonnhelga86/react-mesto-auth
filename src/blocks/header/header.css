@@ -49,7 +49,7 @@
 
 @media screen and (max-width: 457px) {
   .header {
-    padding: 28px 0 42px;
+    padding: 28px 30px 42px;
   }
 
   .header::after {

@@ -81,6 +81,7 @@
 @import url("./blocks/sign/__input/sign__input.css");
 @import url("./blocks/sign/__button/sign__button.css");
 @import url("./blocks/sign/__link/sign__link.css");
+@import url("./blocks/sign/__link/_visible/sign__link_visible.css");
 
 @import url("./blocks/footer/footer.css");
 @import url("./blocks/footer/__copy/footer__copy.css");

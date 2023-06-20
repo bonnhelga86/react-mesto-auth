@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-function SignForm({ submitButtonName, onSubmit }) {
+function SignForm({ submitButtonName, onSubmit, action }) {
   const[email, setEmail] = React.useState('');
   const[password, setPassword] = React.useState('');
 
@@ -18,35 +19,43 @@ function SignForm({ submitButtonName, onSubmit }) {
   }
 
   return(
-    <form
-      className="form sign__form"
-      onSubmit={handleSubmit}
-      name="sign-form"
-      noValidate
-    >
-      <input
-        name="sign-email"
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-        type="email"
-        placeholder="Email"
-        className="form__input sign__input"
-        required
-      />
-      <span className="form__text-error form__text-error_type_sign-email" />
-      <input
-        name="sign-password"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-        type="password"
-        placeholder="Пароль"
-        className="form__input sign__input"
-        required
-      />
-      <span className="form__text-error form__text-error_type_sign-password" />
-      <button className="sign__button popup__button">{submitButtonName}</button>
+    <>
+      <form
+        className="form sign__form"
+        onSubmit={handleSubmit}
+        name="sign-form"
+        noValidate
+      >
+        <input
+          name="sign-email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          type="email"
+          placeholder="Email"
+          className="form__input sign__input"
+          required
+        />
+        <span className="form__text-error form__text-error_type_sign-email" />
+        <input
+          name="sign-password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          type="password"
+          placeholder="Пароль"
+          className="form__input sign__input"
+          required
+        />
+        <span className="form__text-error form__text-error_type_sign-password" />
+        <button className="sign__button popup__button">{submitButtonName}</button>
 
-    </form>
+      </form>
+
+      <Link to="/sign-in" className={`sign__link ${action === 'register' && 'sign__link_visible'}`}>
+        Уже зарегистрированы? Войти
+      </Link>
+
+    </>
+
   )
 }
 
