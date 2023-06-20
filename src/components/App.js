@@ -48,16 +48,56 @@ function App() {
     tokenCheck();
   }, [])
 
+  function handleRegister(email, password) {
+    auth.register(email, password)
+        .then(data => {
+          if(data) {
+            setInfoTooltipType('success');
+            setIsInfoTooltipPopupOpen(true);
+            navigate('/sign-in', {replace: true});
+          }
+        })
+        .catch(error => {
+          setInfoTooltipType('fail');
+          setIsInfoTooltipPopupOpen(true);
+          console.error(error);
+        });
+  }
+
+  function handleAuthorize(email, password) {
+    auth.authorize(email, password)
+        .then(data => {
+          if (data.token){
+            setIsLoggedIn(true);
+            localStorage.setItem('token', data.token);
+            setEmail(email);
+            navigate('/', {replace: true});
+            return data;
+          } else {
+            return;
+          }
+        })
+        .catch(error => {
+          setInfoTooltipType('fail');
+          setIsInfoTooltipPopupOpen(true);
+          console.error(error);
+        });
+  }
+
   function tokenCheck() {
     const token = localStorage.getItem('token');
     if(token) {
-      auth.tokenCheck(token).then(data => {
-        if(data) {
-          setIsLoggedIn(true);
-          setEmail(data.data.email);
-          navigate('/', {replace: true});
-        }
-      })
+      auth.tokenCheck(token)
+          .then(data => {
+            if(data) {
+              setIsLoggedIn(true);
+              setEmail(data.data.email);
+              navigate('/', {replace: true});
+            }
+          })
+          .catch(error => {
+            console.error(error);
+          });
     }
   }
 
@@ -177,8 +217,7 @@ function App() {
         <Route path="/sign-up" element={
           <Register
             changeHeaderMenuData={setHeaderMenuData}
-            onInfoTooltipPopupOpen={setIsInfoTooltipPopupOpen}
-            onInfoTooltipTypeChange={setInfoTooltipType}
+            onHandleRegister={handleRegister}
           />
         }/>
 
@@ -186,8 +225,7 @@ function App() {
           <Login
             changeHeaderMenuData={setHeaderMenuData}
             onHandleLogin={handleLogin}
-            onInfoTooltipPopupOpen={setIsInfoTooltipPopupOpen}
-            onInfoTooltipTypeChange={setInfoTooltipType}
+            onHandleAuthorize={handleAuthorize}
           />
         }/>
 
