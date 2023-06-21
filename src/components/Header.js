@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom';
 
 function Header({ isLoggedIn, headerMenuData, email, signOut }) {
 
+  const [sliderMenu, setSliderMenu] = React.useState(false);
+
   return(
     <header className="header">
-      <img src={logo} alt="Логотип Mesto" className="logo" />
-      <div className='header__menu'>
+      {!sliderMenu && <img src={logo} alt="Логотип Mesto" className="logo" />}
+      <div className={`header__menu ${sliderMenu && 'header__menu_opened'}`}>
         {isLoggedIn && <p className="header__email">{email}</p>}
 
         <Link
@@ -18,6 +20,17 @@ function Header({ isLoggedIn, headerMenuData, email, signOut }) {
           {headerMenuData.name}
         </Link>
       </div>
+      {sliderMenu && <img src={logo} alt="Логотип Mesto" className="logo" />}
+      <div className="header__slider-menu" onClick={() => setSliderMenu(!sliderMenu)}>
+        {!sliderMenu
+          ? <div className="header__slider-open">
+              <hr className="header__slider-line" />
+              <hr className="header__slider-line" />
+              <hr className="header__slider-line" />
+            </div>
+          : <div className="header__slider-close"></div>}
+      </div>
+
     </header>
   )
 }
