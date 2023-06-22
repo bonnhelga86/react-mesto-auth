@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import SignForm from './SignForm';
 
 function Register({ changeHeaderMenuData, onHandleRegister }) {
@@ -10,9 +9,13 @@ function Register({ changeHeaderMenuData, onHandleRegister }) {
 
   return(
     <div className="sign">
-      <h2 className="sign__title">Регистрация</h2>
 
-      <SignForm submitButtonName="Зарегистрироваться" onSubmit={onHandleRegister} action='register' />
+      <SignForm
+        submitButtonName="Зарегистрироваться"
+        onSubmit={onHandleRegister}
+        action='register'
+        title="Регистрация"
+      />
 
     </div>
   )

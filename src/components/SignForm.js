@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function SignForm({ submitButtonName, onSubmit, action }) {
+function SignForm({ submitButtonName, onSubmit, action, title }) {
   const[email, setEmail] = React.useState('');
   const[password, setPassword] = React.useState('');
 
@@ -20,6 +20,8 @@ function SignForm({ submitButtonName, onSubmit, action }) {
 
   return(
     <>
+      <h2 className="sign__title">{title}</h2>
+
       <form
         className="form sign__form"
         onSubmit={handleSubmit}

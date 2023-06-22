@@ -9,9 +9,13 @@ function Login({ changeHeaderMenuData, onHandleAuthorize }) {
 
   return(
     <div className="sign">
-      <h2 className="sign__title">Вход</h2>
 
-      <SignForm submitButtonName="Войти" onSubmit={onHandleAuthorize} action='authorize' />
+      <SignForm
+        submitButtonName="Войти"
+        onSubmit={onHandleAuthorize}
+        action='authorize'
+        title="Вход"
+      />
 
     </div>
   )

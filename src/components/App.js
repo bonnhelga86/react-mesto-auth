@@ -36,17 +36,19 @@ function App() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-        .then(([userData, cardsData]) => {
-          setCurrentUser(userData);
-          setCards(cardsData);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-
-    tokenCheck();
-  }, [])
+    if(isLoggedIn) {
+      Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, cardsData]) => {
+        setCurrentUser(userData);
+        setCards(cardsData);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    } else {
+      tokenCheck();
+    }
+  }, [isLoggedIn])
 
   function handleRegister(email, password) {
     auth.register(email, password)
@@ -73,8 +75,6 @@ function App() {
             setEmail(email);
             navigate('/', {replace: true});
             return data;
-          } else {
-            return;
           }
         })
         .catch(error => {
@@ -230,20 +230,21 @@ function App() {
         }/>
 
         <Route path="/" element={
-          isLoggedIn ? <ProtectedRoute
-                          element={Main}
-                          isLoggedIn={isLoggedIn}
-                          cards={cards}
-                          onEditAvatar={setIsEditAvatarPopupOpen}
-                          onEditProfile={setIsEditProfilePopupOpen}
-                          onAddPlace={setIsAddPlacePopupOpen}
-                          onCardClick={setSelectedViewCard}
-                          onCardLike={handleLikeCard}
-                          onDeleteCard={handleDeleteCardPopupOpen}
-                          changeHeaderMenuData={setHeaderMenuData}
-                       />
-                      : <Navigate to="/sign-in" replace />}
-        />
+          <ProtectedRoute
+            element={Main}
+            isLoggedIn={isLoggedIn}
+            cards={cards}
+            onEditAvatar={setIsEditAvatarPopupOpen}
+            onEditProfile={setIsEditProfilePopupOpen}
+            onAddPlace={setIsAddPlacePopupOpen}
+            onCardClick={setSelectedViewCard}
+            onCardLike={handleLikeCard}
+            onDeleteCard={handleDeleteCardPopupOpen}
+            changeHeaderMenuData={setHeaderMenuData}
+         />
+        }/>
+
+        <Route path="*" element={<Navigate to="/" replace /> }/>
 
       </Routes>
 
