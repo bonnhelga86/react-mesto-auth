@@ -6,22 +6,31 @@ function Header({ isLoggedIn, headerMenuData, email, signOut }) {
 
   const [sliderMenu, setSliderMenu] = React.useState(false);
 
+  function handleSignOut() {
+    setSliderMenu(false);
+    signOut();
+  }
+
   return(
     <header className="header">
       {!sliderMenu && <img src={logo} alt="Логотип Mesto" className="logo" />}
-      <div className={`header__menu ${sliderMenu && 'header__menu_opened'}`}>
+
+      <div className={`header__menu ${isLoggedIn && 'header__menu_hidden'} ${sliderMenu && 'header__menu_opened'}`}>
         {isLoggedIn && <p className="header__email">{email}</p>}
 
         <Link
           to={headerMenuData.link}
           className="header__sign-link"
-          onClick={isLoggedIn && signOut}
+          onClick={isLoggedIn && handleSignOut}
         >
           {headerMenuData.name}
         </Link>
       </div>
+
       {sliderMenu && <img src={logo} alt="Логотип Mesto" className="logo" />}
-      <div className="header__slider-menu" onClick={() => setSliderMenu(!sliderMenu)}>
+
+      {isLoggedIn &&
+        <div className="header__slider-menu" onClick={() => setSliderMenu(!sliderMenu)}>
         {!sliderMenu
           ? <div className="header__slider-open">
               <hr className="header__slider-line" />
@@ -29,7 +38,9 @@ function Header({ isLoggedIn, headerMenuData, email, signOut }) {
               <hr className="header__slider-line" />
             </div>
           : <div className="header__slider-close"></div>}
-      </div>
+        </div>
+      }
+
 
     </header>
   )
